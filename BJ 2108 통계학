@@ -1,0 +1,47 @@
+#include <bits/stdc++.h>
+using namespace std;
+using ll = long long;
+
+
+int getMany(vector<int> cnts)
+{
+  int maxx = *max_element(cnts.begin(),cnts.end());
+ // cout<<maxx;
+  vector<int> nums;
+  for(int i=0; i<cnts.size(); i++)
+    {
+      if(maxx==cnts[i])nums.push_back(i);
+    }
+  sort(nums.begin(),nums.end());
+  if(nums.size()>1)return nums[1]-4000;
+  else return nums[0]-4000;
+  //cout<<nums[0]-4000;
+  //return 0;
+}
+int main() {
+  ios::sync_with_stdio(false); // C 표준 입출력과 동기화 끔
+  cin.tie(nullptr);
+  
+  int n;
+  cin>>n;
+  vector<int> v;
+  vector<int> cnts(8001);
+  for(int i=0; i<n; i++)
+    {
+      int tmp;
+      cin>>tmp;
+      v.push_back(tmp);
+      cnts[tmp+4000]++;
+    }
+  
+  sort(v.begin(), v.end());
+
+  double avg = accumulate(v.begin(),v.end(),0);
+  avg = avg/v.size();
+  int avg1 = static_cast<int>(round(avg));
+  int median = v[v.size()/2];
+  int many = getMany(cnts);
+  int term = v[v.size()-1]-v[0];
+
+  cout<<avg1<<"\n"<<median<<"\n"<<many<<"\n"<<term;
+}
