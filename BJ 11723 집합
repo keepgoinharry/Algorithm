@@ -1,0 +1,49 @@
+#include <bits/stdc++.h>
+using namespace std;
+using ll = long long;
+
+int main() {
+  ios::sync_with_stdio(false); // C 표준 입출력과 동기화 끔
+  cin.tie(nullptr);
+  int M;
+  cin>>M;
+  map<int,int> m;
+  for(int i=0; i<=M; i++)
+    {
+      string s;
+      getline(cin,s);
+      if(s.find("add")!=string::npos)
+      {
+        int num = stoi(s.substr(4));
+        if(!m[num])m[num]++;
+      }
+      else if(s.find("remove")!=string::npos)
+      {
+        int num = stoi(s.substr(7));
+        if(m[num])m[num]--;
+      }
+      else if(s.find("check")!=string::npos)
+      {
+        int num = stoi(s.substr(6));
+        if(m[num])cout<<1<<"\n";
+        else cout<<0<<"\n";
+      }
+      else if(s.find("toggle")!=string::npos)
+      {
+        int num = stoi(s.substr(7));
+        if(m[num])m[num]--;
+        else m[num]++;
+      }
+      else if(s.find("all")!=string::npos)
+      {
+        for(int i=1; i<=20; i++)
+          if(!m[i])m[i]++;
+      }
+      else if(s.find("empty")!=string::npos)
+      {
+        for(int i=1; i<=20; i++)
+          if(m[i])m[i]--;
+      }
+    }
+  
+}
