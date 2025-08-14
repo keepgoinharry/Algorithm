@@ -1,0 +1,35 @@
+#include <bits/stdc++.h>
+using namespace std;
+using ll = long long;
+
+bool is_number(const std::string& str) {
+    return !str.empty() && std::all_of(str.begin(), str.end(), ::isdigit);
+}
+
+int main() {
+  ios::sync_with_stdio(false); // C 표준 입출력과 동기화 끔
+  cin.tie(nullptr);
+  int N,M;
+  cin>>N>>M;
+  cin.ignore();
+  map<string,string> m;
+  for(int i=0; i<N; i++)
+    {
+      string s;
+      getline(cin,s);
+      stringstream ss(s);
+      string word;
+      vector<string> vv;
+      while(ss>>word)vv.push_back(word);
+      m[vv[0]]=vv[1];
+    }
+  
+  for(int i=0; i<M; i++)
+    {
+      
+       string s;
+      cin>>s;
+      cout<<m[s]<<"\n";
+    }
+}
+
