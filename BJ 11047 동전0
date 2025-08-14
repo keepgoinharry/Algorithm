@@ -1,0 +1,33 @@
+#include <bits/stdc++.h>
+using namespace std;
+using ll = long long;
+
+bool is_number(const std::string& str) {
+    return !str.empty() && std::all_of(str.begin(), str.end(), ::isdigit);
+}
+
+int main() {
+  ios::sync_with_stdio(false); // C 표준 입출력과 동기화 끔
+  cin.tie(nullptr);
+  long long N,K;
+  cin>>N>>K;
+  vector<long long> v;
+  for(long long i=0; i<N; i++)
+    {
+      long long tmp;
+      cin>>tmp;
+      v.push_back(tmp);
+    }
+  int answer = 0;
+  for(int i=v.size()-1; i>=0; i--)
+    {
+      if(v[i]<=K)
+      {
+        answer += K/v[i];
+        K%=v[i];
+      }
+      if(K==0)break;
+    }
+  cout<<answer;
+}
+
