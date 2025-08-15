@@ -1,0 +1,35 @@
+#include <bits/stdc++.h>
+using namespace std;
+using ll = long long;
+
+bool is_number(const std::string& str) {
+    return !str.empty() && std::all_of(str.begin(), str.end(), ::isdigit);
+}
+int dp[301];
+int main() {
+  ios::sync_with_stdio(false); // C 표준 입출력과 동기화 끔
+  cin.tie(nullptr);
+  int N;
+  cin>>N;
+  
+  vector<int> score;
+    score.push_back(0);
+  for(int i=0; i<N; i++)
+    {
+      int tmp;
+      cin>>tmp;
+        score.push_back(tmp);
+    }
+
+  dp[1] = score[1];
+  dp[2] = score[1]+score[2];
+  for(int i=3; i<=N; i++)
+    {
+      dp[i] = max(dp[i-2]+score[i], dp[i-3] + score[i-1]+score[i]);
+
+      //for(int j=1; j<=i; j++)cout<<dp[j]<<" ";
+      //cout<<endl;
+    }
+  cout<<dp[N];
+}
+
