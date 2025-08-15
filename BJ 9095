@@ -1,0 +1,31 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+void dfs(int cur,int num, int& answer)
+{
+  if(cur>=num)
+  {
+    if(cur==num)answer++;
+    return;
+  }
+
+  dfs(cur+1,num,answer);
+  dfs(cur+2,num,answer);
+  dfs(cur+3,num,answer);
+}
+
+int main() {
+  ios::sync_with_stdio(false); // C 표준 입출력과 동기화 끔
+  cin.tie(nullptr);
+  int T;
+  cin>>T;
+  for(int i=0; i<T; i++)
+    {
+      int tmp;
+      cin>>tmp;
+      int answer = 0;
+      dfs(0,tmp,answer);
+      cout<<answer<<"\n";
+    }
+}
+
