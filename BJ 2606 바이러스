@@ -1,0 +1,41 @@
+#include <bits/stdc++.h>
+using namespace std;
+using ll = long long;
+vector<bool> visited(101);
+vector<vector<int>> graph(101);
+
+void dfs(int num)
+{
+  visited[num] = true;
+
+  for(int i=0;i<graph[num].size();i++)
+    {
+      if(!visited[graph[num][i]])
+      {
+        dfs(graph[num][i]);
+      }
+    }
+}
+int main() {
+  ios::sync_with_stdio(false); // C 표준 입출력과 동기화 끔
+  cin.tie(nullptr);
+  int N,M;
+  cin>>N;
+  cin>>M;
+  for(int i=0; i<M; i++)
+    {
+      int a,b;
+      cin>>a>>b;
+      graph[a].push_back(b);
+      graph[b].push_back(a);
+    }
+  dfs(1);
+
+  int answer = 0;
+  for(int i=2; i<=N; i++)
+    {
+      if(visited[i])answer++;
+    }
+  cout<<answer;
+}
+
