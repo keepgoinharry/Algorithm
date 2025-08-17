@@ -1,0 +1,32 @@
+#include <bits/stdc++.h>
+using namespace std;
+using ll = long long;
+int main() {
+  ios::sync_with_stdio(false); // C 표준 입출력과 동기화 끔
+  cin.tie(nullptr);
+  int N;
+  cin>>N;
+  priority_queue<ll,vector<ll>,greater<>> pq;
+
+  for(int i=0; i<N; i++)
+    {
+      ll tmp;
+      cin>>tmp;
+      if(tmp!=0)
+      {
+        pq.push(tmp);
+      }
+      else
+      {
+        if(pq.empty())cout<<0<<"\n";
+        else
+        {
+            cout<<pq.top()<<"\n";
+            pq.pop();
+        }
+      }
+    }
+    
+  
+}
+
