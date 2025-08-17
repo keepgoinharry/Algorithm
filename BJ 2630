@@ -1,0 +1,70 @@
+#include <bits/stdc++.h>
+using namespace std;
+using ll = long long;
+
+vector<vector<int>> graph;
+void quad(int x, int y, int size, int& zerocnt, int& onecnt)
+{
+  if(size==1){
+    if(graph[x][y])onecnt++;
+    else zerocnt++;
+    return;
+  }
+
+  int first = graph[x][y];
+  bool flag = true;
+  for(int i=x; i<size+x; i++)
+    {
+      for(int j=y; j<size+y; j++)
+        {
+          if(graph[i][j]!=first)
+          {
+            flag = false;
+            break;
+          }
+        }
+      if(!flag)break;
+    }
+  if(flag)
+  {
+    if(first)onecnt++;
+    else zerocnt++;
+    return;
+  }
+  
+  int half = size/2;
+  quad(x,y,half,zerocnt,onecnt);
+  quad(x+half,y,half,zerocnt,onecnt);
+  quad(x,y+half,half,zerocnt,onecnt);
+  quad(x+half,y+half,half,zerocnt,onecnt);
+}
+int main() {
+  ios::sync_with_stdio(false); // C 표준 입출력과 동기화 끔
+  cin.tie(nullptr);
+
+  int N;
+  cin>>N;
+  graph = vector<vector<int>>(N,vector<int>(N));
+  cin.ignore();
+  for(int i=0; i<N; i++)
+    {
+      string s;
+      getline(cin,s);
+      stringstream ss(s);
+      for(int j=0; j<N; j++)
+        {
+          ss>>graph[i][j];
+        }
+      //cin.ignore();
+    }
+
+  
+  int zerocnt = 0;
+  int onecnt = 0;
+  quad(0,0,N,zerocnt,onecnt);
+  
+
+  cout<<zerocnt<<endl;
+  cout<<onecnt;
+}
+
