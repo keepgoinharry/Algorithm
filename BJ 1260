@@ -1,0 +1,69 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+void dfs(int s,vector<vector<int>> graph, vector<bool>& visited)
+{
+  visited[s] = true;
+  cout<<s<<" ";
+  for(int i=0; i<graph[s].size(); i++)
+    {
+      int nx = graph[s][i];
+      if(!visited[nx])
+      {
+        dfs(nx,graph,visited);
+      }
+    }
+}
+
+void bfs(int s,vector<vector<int>> graph, vector<bool>& visited)
+{
+  queue<int> q;
+  visited[s] = true;
+  q.push(s);
+  while(!q.empty())
+    {
+      int cur = q.front();
+      cout<<cur<<" ";
+      q.pop();
+      for(int i=0; i<graph[cur].size(); i++)
+        {
+          int nx = graph[cur][i];
+           if(!visited[nx])
+           {
+             visited[nx] = true;
+             q.push(nx);
+           }
+        }
+    }
+  
+}
+
+int main() {
+  ios::sync_with_stdio(false); // C 표준 입출력과 동기화 끔
+  cin.tie(nullptr);
+  int N,M,V;
+  cin>>N>>M>>V;
+
+  vector<bool> visited(N+1,0);
+  vector<vector<int>> graph(N+1);
+
+  for(int i=0; i<M; i++)
+    {
+      int a,b;
+      cin>>a>>b;
+      graph[a].push_back(b);
+      graph[b].push_back(a);
+    }
+  for(int i=0; i<graph.size(); i++)
+    {
+      sort(graph[i].begin(),graph[i].end());
+    }
+  
+  dfs(V,graph,visited);
+  cout<<endl;
+  visited = vector<bool>(N+1,0);
+  bfs(V,graph,visited);
+  
+  
+}
+
