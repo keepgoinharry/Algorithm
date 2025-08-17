@@ -1,0 +1,37 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+  ios::sync_with_stdio(false); // C 표준 입출력과 동기화 끔
+  cin.tie(nullptr);
+  string s;
+  cin>>s;
+  stringstream ss(s);
+  
+  string word;
+  vector<string> v;
+  while(getline(ss,word,'-'))
+    {
+      v.push_back(word);
+    }
+
+  vector<int> vv;
+  for(int i=0; i<v.size(); i++)
+    {
+      stringstream sss(v[i]);
+      string word;
+      int num = 0;
+      while(getline(sss,word,'+'))
+        {
+          num+=stoi(word);
+        }
+      vv.push_back(num);
+    }
+  int answer = vv[0];
+  for(int i=1; i<vv.size(); i++)
+    {
+      answer-=vv[i];
+    }
+  cout<<answer;
+}
+
