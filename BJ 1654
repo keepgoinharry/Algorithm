@@ -1,0 +1,38 @@
+#include <bits/stdc++.h>
+using namespace std;
+using ll = long long;
+int main() {
+  ios::sync_with_stdio(false); // C 표준 입출력과 동기화 끔
+  cin.tie(nullptr);
+  int K,N;
+  cin>>K>>N;
+  vector<ll> v;
+  for(int i=0; i<K; i++)
+    {
+      ll tmp;
+      cin>>tmp;
+      v.push_back(tmp);
+    }
+
+  int answer;
+  ll s=1;
+  ll e=*max_element(v.begin(),v.end());
+  while(s<=e)
+    {
+      ll mid = (e+s)/2;
+      
+      ll tmp = 0;
+      for(int i=0; i<v.size(); i++)
+        {
+          tmp += v[i]/mid;
+        }
+      if(tmp<N)e = mid-1;
+      else 
+      {
+        answer = mid;
+        s=mid+1;
+      }
+    }
+  cout<<answer;
+}
+
