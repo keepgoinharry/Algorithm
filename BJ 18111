@@ -1,0 +1,75 @@
+#include <bits/stdc++.h>
+using namespace std;
+using ll = long long;
+
+
+
+
+int check(int h, vector<vector<int>> graph,int B)
+{
+  int time = 0;
+  for(int i=0; i<graph.size(); i++)
+    {
+      for(int j=0; j<graph[i].size(); j++)
+        {
+          if(h>graph[i][j])
+          {
+            B-= (h-graph[i][j]);
+            time += (h-graph[i][j]);
+            
+          }
+          else if(h<graph[i][j])
+          {
+            B+= (graph[i][j]-h);
+            time += (2*(graph[i][j]-h));
+        
+          }
+        }
+    }
+  if(B>=0)return time;
+  else return -1;
+}
+
+int main() {
+  ios::sync_with_stdio(false); // C 표준 입출력과 동기화 끔
+  cin.tie(nullptr);
+  vector<vector<int>> graph;
+  int N,M,B;
+  cin>>N>>M>>B;
+  graph = vector<vector<int>>(N);
+  cin.ignore();
+  for(int i=0; i<N; i++)
+    {
+      string s;
+      getline(cin,s);
+      stringstream ss(s);
+      vector<int>v;
+      int tm;
+      for(int j=0; j<M; j++)
+        {
+          ss>>tm; 
+          v.push_back(tm);
+        }
+      graph[i] = v;
+    }
+  
+  int time = 0;
+  int height = -1;
+  bool flag = false;
+  for(int h=0; h<=256; h++)
+    {
+      int num = check(h,graph,B);
+      if(num!=-1)
+      {
+        if (!flag || num < time || (num == time && h > height)) 
+        {
+            time = num;
+            height = h;
+            flag = true;
+        }
+      }
+    }
+  cout<<time<<" "<<height;
+}
+
+
