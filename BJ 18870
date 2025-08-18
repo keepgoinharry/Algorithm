@@ -1,0 +1,43 @@
+#include <bits/stdc++.h>
+using namespace std;
+using ll = long long;
+
+int main() {
+  ios::sync_with_stdio(false); // C 표준 입출력과 동기화 끔
+  cin.tie(nullptr);
+  int N;
+  cin>>N;
+  vector<ll> v;
+  for(int i=0; i<N; i++)
+    {
+      ll tmp;
+      cin>>tmp;
+      v.push_back(tmp);
+    }
+
+  ll min = abs(*min_element(v.begin(),v.end()));
+  for(int i=0; i<v.size(); i++)v[i]+=min;
+
+  vector<ll> vv = v;
+
+  sort(vv.begin(),vv.end());
+  map<ll,ll> freq;
+  map<ll,bool> visited;
+  int cur = 0;
+  for(int i=0; i<vv.size(); i++)
+    {
+      if(!visited[vv[i]])
+      {
+        freq[vv[i]] = cur;
+        visited[vv[i]] = true;
+        cur++;
+      }
+    }
+
+  for(int i=0; i<v.size(); i++)
+    {
+      cout<<freq[v[i]]<<" ";
+    }
+}
+
+
