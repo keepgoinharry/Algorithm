@@ -1,0 +1,36 @@
+#include <bits/stdc++.h>
+using namespace std;
+using ll = long long;
+
+int INF=1e9;
+
+int main() {
+  ios::sync_with_stdio(false); // C 표준 입출력과 동기화 끔
+  cin.tie(nullptr);
+  int N,K;
+  cin>>N>>K;
+  vector<int> dp(100001,-1);
+  queue<int> q;
+  dp[N] = 0;
+  q.push(N);
+  while(!q.empty())
+    {
+      int cur = q.front();
+      q.pop();
+      int nx[3] = {cur+1, cur-1, cur*2};
+      for(auto next : nx)
+        {
+          if(next<0||next>100000)continue;
+          if(dp[next]!=-1)continue;
+          
+          
+            dp[next] = dp[cur] + 1;
+            q.push(next);
+          
+        }
+      
+    }
+  cout<<dp[K];
+}
+
+
