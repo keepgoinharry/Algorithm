@@ -1,0 +1,54 @@
+#include <bits/stdc++.h>
+using namespace std;
+using ll = long long;
+
+int main() {
+  ios::sync_with_stdio(false); // C 표준 입출력과 동기화 끔
+  cin.tie(nullptr);
+  int N,M;
+  cin>>N>>M;
+  
+  vector<vector<char>> g(N,vector<char>(M));
+  vector<vector<bool>> visited(N,vector<bool>(M));
+  pair<int,int> start;
+  int dx[4] = {0,0,-1,1};
+  int dy[4] = {1,-1,0,0};
+  
+  for(int i=0; i<N; i++){
+      string s;
+      cin>>s;
+      for(int j=0; j<M;j++){
+        g[i][j] = s[j];
+        if(s[j]=='I')start = {i,j};
+      }
+    }
+  
+  queue<pair<int,int>> q;
+  visited[start.first][start.second] = true;
+  q.push(start);
+  int answer = 0;
+  while(!q.empty())
+    {
+      int cx = q.front().first;
+      int cy = q.front().second;
+      q.pop();
+      if(g[cx][cy]=='P')answer++;
+
+      for(int i=0; i<4; i++)
+        {
+          int nx = cx + dx[i];
+          int ny = cy + dy[i];
+          if(nx>=N||ny>=M||nx<0||ny<0)continue;
+          if(g[nx][ny]!='X'&&!visited[nx][ny])
+          {
+            visited[nx][ny]=true;
+            q.push({nx,ny});
+          }
+        }
+      
+    }
+  if(!answer)cout<<"TT";
+  else cout<<answer;
+}
+
+
