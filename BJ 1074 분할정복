@@ -1,0 +1,47 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int answer = 0;
+int N,r,c;
+void quad(int size, int num, int sr, int sc)
+{
+  if(size==1)
+  {
+    cout<<num;
+    return;
+  }
+
+  int half = size/2;
+  int qs = half*half;
+
+  if(r<sr+half&&c<sc+half)
+  {
+    quad(half,num,sr,sc);
+  }
+  else if(r<sr+half&&c>=sc+half)
+  {
+    quad(half,num+qs,sr,sc+half);
+  }
+  else if(r>=sr+half&&c<sc+half)
+  {
+    quad(half,num+(qs*2),sr+half,sc);
+  }
+  else if(r>=sr+half&&c>=sc+half)
+  {
+    quad(half,num+(qs*3),sr+half,sc+half);
+  }
+}
+
+int main(int argc, char* argv[]) {
+  ios::sync_with_stdio(false);
+  cin.tie(nullptr);
+  
+  cin>>N>>r>>c;
+  int size = 1;
+  for(int i=1; i<=N; i++)
+    {
+      size*=2;
+    }
+  quad(size,0,0,0);
+ 
+}
