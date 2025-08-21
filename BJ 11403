@@ -1,0 +1,58 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int INF = 1e9;
+
+void dfs(int num,vector<vector<int>>& v,vector<int>& visited)
+{
+  for(int i=0; i<v[num].size(); i++)
+    {
+      if(!visited[v[num][i]])
+      {
+        visited[v[num][i]] = true;
+        dfs(v[num][i],v,visited);
+      }
+    }
+}
+
+int main(int argc, char* argv[]) {
+  ios::sync_with_stdio(false);
+  cin.tie(nullptr);
+  
+  int N;
+  cin>>N;
+  vector<vector<int>> v(N);
+  for(int i=0; i<N; i++)
+    {
+      for(int j=0; j<N; j++)
+        {
+          int t;
+          cin>>t;
+          if(t!=0)
+          {
+            v[i].push_back(j);
+          }
+        }
+      
+    }
+
+  vector<vector<int>> answer;
+  
+  for(int i=0; i<N; i++)
+    {
+      vector<int> tmp(N,0);
+      dfs(i,v,tmp);
+      //for(auto i:tmp)cout<<i<<" ";
+      answer.push_back(tmp);
+    }
+
+  for(int i=0; i<answer.size(); i++)
+    {
+      for(int j=0; j<answer[i].size(); j++)
+        {
+          cout<<answer[i][j]<<" ";
+        }
+      cout<<endl;
+    }
+
+}
