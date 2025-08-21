@@ -1,0 +1,72 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+void print(vector<vector<int>> v)
+{
+  for(int i=0; i<v.size(); i++)
+    {
+      for(int j=0; j<v[i].size(); j++)
+        {
+          cout<<v[i][j]<<" ";
+        }
+      cout<<"\n";
+    }
+}
+int dx[4] = {0,0,-1,1};
+int dy[4] = {1,-1,0,0};
+int main(int argc, char* argv[]) {
+  ios::sync_with_stdio(false);
+  cin.tie(nullptr);
+  
+  int N,M;
+  cin>>N>>M;
+  vector<vector<int>> graph(N,vector<int>(M));
+  vector<vector<int>> visited(N,vector<int>(M,0));
+  pair<int,int> s;
+  for(int i=0; i<N; i++)
+    {
+      for(int j=0; j<M; j++)
+        {
+          cin>>graph[i][j];
+          if(graph[i][j]==2)
+          {
+            s={i,j};
+          }
+        }
+    }
+  queue<pair<int,int>> q;
+  q.push(s);
+  graph[s.first][s.second] = 0;
+  visited[s.first][s.second] = 1;
+  while(!q.empty())
+    {
+      int cx = q.front().first;
+      int cy = q.front().second;
+      q.pop();
+      for(int i=0; i<4; i++)
+        {
+          for(int j=0; j<4; j++)
+            {
+              int nx = cx + dx[i];
+              int ny = cy + dy[i];
+              if(nx>=N||ny>=M||nx<0||ny<0)continue;
+              if(graph[nx][ny]==1&&!visited[nx][ny])
+              {
+                graph[nx][ny]=graph[cx][cy] + 1;
+                visited[nx][ny] = 1;
+                q.push({nx,ny});
+              }
+            }
+        }
+    
+      
+    }
+  for(int i=0; i<graph.size(); i++)
+    {
+      for(int j=0; j<graph[i].size(); j++)
+        {
+          if(!visited[i][j]&&graph[i][j]!=0)graph[i][j] = -1;
+        }
+    }
+print(graph);
+}
