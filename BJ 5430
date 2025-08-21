@@ -1,0 +1,76 @@
+#include <bits/stdc++.h>
+using namespace std;
+using ll = long long;
+
+int main(int argc, char* argv[]) {
+  ios::sync_with_stdio(false);
+  cin.tie(nullptr);
+  
+  int T,n;
+  cin>>T;
+  for(int i=0; i<T; i++)
+    {
+      string p;
+      cin>>p;
+      cin>>n;
+      string s;
+      cin>>s;
+      deque<int> q;
+      s.erase(s.begin());
+      s.erase(s.end()-1);
+      
+      stringstream ss(s);
+      string num;
+      while(getline(ss,num,','))
+        {
+          q.push_back(stoi(num));
+        }
+      bool reversed = false;
+      bool flag = false;
+      for(int j=0; j<p.size(); j++)
+        {
+          if(p[j]=='R')
+          {
+            if(reversed)reversed = false;
+            else reversed = true;
+          }
+          else if(p[j]=='D')
+          {
+            if(q.empty()){
+              cout<<"error"<<"\n";
+              flag = true;
+              break;
+            }
+            else
+            {
+              if(reversed)
+              {
+                q.pop_back();
+              }
+              else
+              {
+                q.pop_front();
+              }
+            }
+          }
+        }
+      if(flag)continue;
+      string answer = "[";
+      while(q.size())
+      {
+        if(reversed)
+        {
+          answer+=to_string(q.back()) + ",";
+          q.pop_back();
+        }
+        else
+        {
+          answer+=to_string(q.front()) + ",";
+          q.pop_front();
+        }
+      }
+      if(answer.back() == ',')answer.erase(answer.end()-1);
+      answer+="]";
+      cout<<answer<<"\n";
+    }
+}
