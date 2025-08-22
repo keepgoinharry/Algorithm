@@ -1,0 +1,69 @@
+#include <bits/stdc++.h>
+using namespace std;
+using ll = long long;
+
+int dh[6] = {0,0,0,0,1,-1};
+int dx[6] = {1,-1,0,0,0,0};
+int dy[6] = {0,0,1,-1,0,0};
+
+int main(int argc, char* argv[]) {
+  ios::sync_with_stdio(false);
+  cin.tie(nullptr);
+  int M,N,H;
+  cin>>M>>N>>H;
+  vector<vector<vector<int>>> graph(H,vector<vector<int>>(N,vector<int>(M,0)));
+  vector<vector<vector<bool>>> visited(H,vector<vector<bool>>(N,vector<bool>(M,0)));
+
+  queue<pair<int,pair<int,int>>> q;
+  for(int i=0; i<H; i++)
+  {
+    for(int j=0; j<N; j++)
+      {  
+         for(int k=0; k<M; k++)
+           {
+             cin>>graph[i][j][k];
+             if(graph[i][j][k]==1)
+             {
+               q.push({i,{j,k}});
+             }
+           }
+      }
+  }
+  while(!q.empty())
+    {
+      int ch = q.front().first;
+      int cx = q.front().second.first;
+      int cy = q.front().second.second;
+      q.pop();
+      for(int i=0; i<6; i++)
+        {
+          int nh = ch + dh[i];
+          int nx = cx + dx[i];
+          int ny = cy + dy[i];
+
+          if(nh>=H||nx>=N||ny>=M||nh<0||nx<0||ny<0)continue;
+          if(graph[nh][nx][ny]==0)
+          {
+            graph[nh][nx][ny] = graph[ch][cx][cy] + 1;
+            q.push({nh,{nx,ny}});
+          }
+            
+        }
+    }
+
+  int ans = 0;
+  for(int h=0; h<H; h++) {
+      for(int n=0; n<N; n++) {
+          for(int m=0; m<M; m++) {
+              if(graph[h][n][m] == 0) {
+                  cout << -1;
+                  return 0;
+              }
+              ans = max(ans, graph[h][n][m]);
+          }
+      }
+  }
+  cout << ans-1;
+  
+  
+}
