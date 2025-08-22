@@ -1,0 +1,54 @@
+#include <bits/stdc++.h>
+using namespace std;
+using ll = long long;
+int INF = 1e9;
+int dx[6] = {1,2,3,4,5,6};
+int main(int argc, char* argv[]) {
+  ios::sync_with_stdio(false);
+  cin.tie(nullptr);
+  vector<int> move(101,0);
+  vector<bool> visited(101,0);
+
+  int N,M;
+  cin>>N>>M;
+  for(int i=0; i<N; i++)
+    {
+      int x,y;
+      cin>>x>>y;
+      move[x] = y;
+    }
+  for(int i=0; i<M; i++)
+    {
+      int x,y;
+      cin>>x>>y;
+      move[x] = y;
+    }
+
+  queue<pair<int,int>> q;
+  visited[1] = true;
+  
+  q.push({1,0});
+  while(!q.empty())
+    {
+      int pos = q.front().first;
+      int dist = q.front().second;
+      q.pop();
+
+      for(int i=0; i<6; i++)
+        {
+          int next = pos + dx[i];
+          if(next==100)
+          {
+            cout<<dist + 1;
+            return 0;
+          }
+          if(next>100)continue;
+          if(move[next]>0)next = move[next];
+          if(!visited[next])
+          {
+            q.push({next,dist+1});
+            visited[next] = true;
+          }
+        }
+    }
+}
