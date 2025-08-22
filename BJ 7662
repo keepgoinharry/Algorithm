@@ -1,0 +1,65 @@
+#include <bits/stdc++.h>
+using namespace std;
+using ll = long long;
+
+int main(int argc, char* argv[]) {
+  ios::sync_with_stdio(false);
+  cin.tie(nullptr);
+  priority_queue<int,vector<int>,greater<>> pq1;
+  priority_queue<int,vector<int>,less<>> pq2;
+
+  int T;
+  cin>>T;
+  map<int,int> freq;
+  for(int i=0; i<T; i++)
+    {
+      int k;
+      cin>>k;
+      cin.ignore();
+      for(int j=0; j<k; j++)
+        {
+          string s;
+          
+          getline(cin,s);
+          char c = s[0];
+          int num = stoi(s.substr(2));
+          if(c=='I')
+          {
+            pq1.push(num);
+            pq2.push(num);
+            freq[num]++;
+          }
+          else if(c=='D')
+          {
+            if(num==1)
+            {
+              while(!pq2.empty()&&freq[pq2.top()]==0)pq2.pop();
+              if(!pq2.empty())
+              {
+                freq[pq2.top()]--;
+                pq2.pop();
+              }
+            }
+            else if(num==-1)
+            {
+              while(!pq1.empty()&&freq[pq1.top()]==0)pq1.pop();
+              if(!pq1.empty())
+              {
+                freq[pq1.top()]--;
+                pq1.pop();
+              }
+            }
+          }
+        }
+      
+      while (!pq2.empty() && freq[pq2.top()] == 0) pq2.pop();
+      while (!pq1.empty() && freq[pq1.top()] == 0) pq1.pop();
+
+      if (pq1.empty() || pq2.empty())
+          cout << "EMPTY\n";
+      else
+          cout << pq2.top() << ' ' << pq1.top() << '\n';//if(pq1.empty()||pq2.empty())cout<<"EMPTY";
+    }
+  
+  
+}
