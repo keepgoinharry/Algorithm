@@ -1,0 +1,36 @@
+#include <bits/stdc++.h>
+using namespace std;
+vector<int> v;
+int N,M;
+void dfs(int num ,int depth, vector<bool>& visited)
+{
+  if(depth==M)
+  {
+    for(auto i:v)
+      {
+        cout<<i<<" ";
+      }
+    cout<<"\n";
+    return;
+  }
+
+  for(int i=num; i<=N; i++)
+    {
+      if(!visited[i])
+      {
+        visited[i]=true;
+        v.push_back(i);
+        dfs(i,depth+1,visited);
+        visited[i]=false;
+        v.pop_back();
+      }
+    }
+}
+
+int main() {
+  ios::sync_with_stdio(false);
+  cin.tie(nullptr);
+  cin>>N>>M;
+  vector<bool> visited(N+1,0);
+  dfs(1,0,visited);
+}
