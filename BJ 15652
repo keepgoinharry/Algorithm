@@ -1,0 +1,31 @@
+#include <bits/stdc++.h>
+using namespace std;
+vector<int> v;
+int N,M;
+
+void dfs(int num, int depth)
+{
+  if(depth == M)
+  {
+    for(auto i:v)
+      {
+        cout<<i<<" ";
+      }
+    cout<<"\n";
+    return;
+  }
+
+  for(int i=num; i<=N; i++)
+    {
+      v.push_back(i);
+      dfs(i,depth+1);
+      v.pop_back();
+    }
+}
+
+int main() {
+  ios::sync_with_stdio(false);
+  cin.tie(nullptr);
+  cin>>N>>M;
+  dfs(1,0);
+}
