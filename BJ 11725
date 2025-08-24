@@ -1,0 +1,42 @@
+#include <bits/stdc++.h>
+using namespace std;
+int N;
+vector<vector<int>> v;
+vector<int> ans;
+vector<bool> visited;
+void dfs(int num)
+{
+    
+    for(int i=0; i<v[num].size(); i++)
+    {
+        if(!visited[v[num][i]])
+        {
+            visited[v[num][i]] = true;
+            ans[v[num][i]] = num;
+            dfs(v[num][i]);
+        }
+    }
+        
+}
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    cin>>N;    
+    v = vector<vector<int>>(N+1);
+    ans = vector<int>(N+1,0);
+    visited = vector<bool>(N+1,0);
+    for(int i=1; i<N; i++)
+        {
+            int a,b;
+            cin>>a>>b;
+            v[a].push_back(b);
+            v[b].push_back(a);
+        }
+    
+    
+    visited[1] = true;
+    dfs(1);
+    for(int i=2; i<=N; i++)
+        cout<<ans[i]<<"\n";
+}
