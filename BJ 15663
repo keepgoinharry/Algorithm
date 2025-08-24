@@ -1,0 +1,65 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int N,M;
+vector<int> v;
+vector<int> visited;
+vector<int> tmp;
+vector<vector<int>> freq;
+
+
+bool check(vector<int> tmp)
+{
+    for(int i=0; i<freq.size(); i++)
+        {
+            if(freq[i]==tmp)
+            {
+                return false;
+            }
+        }
+    return true;
+}
+
+
+void dfs(int depth)
+{
+    if(depth == M)
+    {
+            for(auto i:tmp)cout<<i<<" ";
+            cout<<"\n";
+        
+        return;
+    }
+
+    int prev = -1;
+    for(int i=0; i<v.size(); i++)
+        {
+            if(!visited[i]&& prev !=v[i])
+            {
+                visited[i] = true;
+                tmp.push_back(v[i]);
+                dfs(depth+1);
+                tmp.pop_back();
+                visited[i] = false;
+                prev=v[i];
+            }
+        }
+    
+}
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    cin>>N>>M;
+    visited = vector<int>(N,0);
+
+    for(int i=0; i<N; i++)
+        {
+            int a;
+            cin>>a;
+            v.push_back(a);
+        }
+    sort(v.begin(),v.end());
+    dfs(0);
+    
+}
