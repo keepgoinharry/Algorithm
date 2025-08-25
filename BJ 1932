@@ -1,0 +1,48 @@
+#include <bits/stdc++.h>
+using namespace std;
+using ll = long long;
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int N;
+    cin>>N;
+    vector<vector<int>> v(N);
+    vector<vector<int>> dp(N,vector<int>(N,0));
+    for(int i=1; i<=N; i++)
+      {
+        vector<int> tmp;
+        for(int j=0; j<i; j++)
+          {
+            int t;
+            cin>>t;
+            tmp.push_back(t);
+          }
+        v[i-1] = tmp;
+      }
+
+  dp[0][0] = v[0][0];
+  for(int i=1; i<N; i++)
+    {
+      for(int j=0; j<v[i].size(); j++)
+        {
+          if(j==v[i].size()-1)
+          {
+            dp[i][j] = dp[i-1][j-1] + v[i][j];
+          }
+          else if(j==0)
+          {
+            dp[i][j] = dp[i-1][j] + v[i][j];
+          }
+          else
+          {
+            dp[i][j] = max(dp[i-1][j-1],dp[i-1][j]) + v[i][j];
+          }
+        }
+    }
+
+  int answer = -1;
+  for(auto i:dp[N-1])answer = max(i,answer);
+  cout<<answer;
+  
+}
