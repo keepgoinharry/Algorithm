@@ -1,0 +1,43 @@
+#include <bits/stdc++.h>
+using namespace std;
+using ll = long long;
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int N,K;
+    cin>>N>>K;
+    deque<int> dq;
+    dq.push_back(N);
+    vector<int> dist(100001,1e9);
+    dist[N] = 0;
+    
+    while(!dq.empty()){
+      int cur = dq.front();
+      dq.pop_front();
+
+      if(cur == K){
+        cout<<dist[cur];
+        return 0;
+      }
+      
+      int nx1;
+      
+      nx1 = cur*2;
+      if(nx1<=100000 && dist[nx1]>dist[cur]){
+          dist[nx1] = dist[cur];
+          dq.push_front(nx1);
+      }
+  
+      nx1 = cur - 1;
+      if(nx1<=100000 && dist[nx1]>dist[cur]+1){
+          dist[nx1] = dist[cur]+1;
+          dq.push_back(nx1);
+      }
+      nx1 = cur + 1;
+      if(nx1<=100000 && (dist[nx1]>dist[cur] + 1)){
+          dist[nx1] = dist[cur] + 1;
+          dq.push_back(nx1);
+      }
+    }
+  
+}
