@@ -1,0 +1,29 @@
+#include <bits/stdc++.h>
+using namespace std;
+using ll = long long;
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    string X,Y;
+    cin>>X;
+    cin>>Y;
+    int sizex = X.size();
+    int sizey = Y.size();
+    vector<vector<int>> dp(sizex+1,vector<int>(sizey+1,0));
+
+    for(int i=1; i<=sizex; i++)
+      {
+        for(int j=1; j<=sizey; j++)
+          {
+            if(X[i-1]==Y[j-1])
+            {
+              dp[i][j] = dp[i-1][j-1] + 1;
+            }
+            else{
+              dp[i][j] = max(dp[i-1][j], dp[i][j-1]);
+            }
+          }
+      }
+  cout<<dp[sizex][sizey];
+}
