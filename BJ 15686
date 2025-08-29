@@ -1,0 +1,65 @@
+#include <bits/stdc++.h>
+using namespace std;
+using ll = long long;
+int N,M;
+vector<pair<int,int>> house;
+vector<pair<int,int>> chiken;
+vector<pair<int,int>> newchiken;
+int hsize;
+int ncsize;
+int answer = 1e9;
+
+int getnum(){
+  vector<int> tmp(hsize,1e9);
+  for(int i=0; i<hsize; i++){
+    for(int j=0; j<newchiken.size(); j++)
+      {
+        int dist = abs(house[i].first-newchiken[j].first) + abs(house[i].second-newchiken[j].second);
+        tmp[i] = min(tmp[i],dist);
+      }
+  }
+  return accumulate(tmp.begin(),tmp.end(),0);
+  
+}
+void dfs(int depth,int idx, vector<bool>& visited){
+  if(depth==M){
+    int num = getnum();
+    answer = min(answer,num);
+    return;
+  }
+
+  for(int i=idx; i<chiken.size(); i++){
+    if(!visited[i]){
+      visited[i]= true;
+      newchiken.push_back(chiken[i]);
+      dfs(depth+1,i+1,visited);
+      newchiken.pop_back();
+      visited[i]= false;
+    }
+  }
+}
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    cin>>N>>M;
+    
+    vector<vector<int>> graph(N+1,vector<int>(N+1,0));
+    for(int i=0; i<N; i++){      
+      for(int j=0; j<N; j++){
+        cin>>graph[i][j];
+      } 
+    }
+    for(int i=0; i<graph.size(); i++){
+      for(int j=0; j<graph[i].size(); j++){
+        if(graph[i][j]==1)house.push_back({i+1,j+1});
+        else if(graph[i][j]==2)chiken.push_back({i+1,j+1});
+      }
+    }
+  hsize = house.size();
+  vector<bool> visited(chiken.size(),0);
+  dfs(0,0,visited);
+  cout<<answer;
+  
+}
