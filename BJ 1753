@@ -1,0 +1,55 @@
+#include <bits/stdc++.h>
+using namespace std;
+using ll = long long;
+int N,M;
+int INF = 1e9;
+vector<vector<pair<ll,int>>> graph;
+
+vector<ll> dijk(int start)
+{
+  vector<ll> dist(N+1,INF);
+  priority_queue<pair<ll,int>,vector<pair<ll,int>>,greater<>> pq;
+  dist[start] = 0;
+  pq.push({0,start});
+  while(!pq.empty())
+    {
+      int cx = pq.top().second;
+      int cd = pq.top().first;
+      pq.pop();
+      if(cd>dist[cx])continue;
+
+      for(int i=0; i<graph[cx].size(); i++)
+        {
+          int next = graph[cx][i].first;
+          int weight = graph[cx][i].second;
+
+          if(dist[next]>cd+weight)
+          {
+            dist[next] = cd+weight;
+            pq.push({dist[next],next});
+          }
+        }
+    }
+  return dist;
+}
+
+int main() {
+  ios::sync_with_stdio(false);
+  cin.tie(nullptr);
+    
+  cin>>N>>M;
+
+  graph=vector<vector<pair<ll,int>>>(N+1);
+
+  int start;
+  cin>>start;
+  for(int i=0; i<M; i++){
+    int a,b,c;
+    cin>>a>>b>>c;
+    graph[a].push_back({b,c});
+    //graph[b].push_back({a,c});
+  }
+  vector<ll> dist = dijk(start);
+  for(int i=1; i<=N; i++)if(dist[i]>=INF)cout<<"INF"<<"\n";
+  else cout<<dist[i]<<"\n";
+}
