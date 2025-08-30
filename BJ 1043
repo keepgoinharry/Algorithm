@@ -1,0 +1,82 @@
+#include <bits/stdc++.h>
+using namespace std;
+using ll = long long;
+int N,M;
+
+vector<vector<int>> party;
+vector<vector<int>> conn;
+vector<bool> know;
+
+void dfs(int num)
+{
+  for(int i=0; i<conn[num].size(); i++)
+    {
+      if(!know[conn[num][i]])
+      {
+        know[conn[num][i]] = true;
+        dfs(conn[num][i]);
+      }
+    }
+}
+
+int main() {
+  ios::sync_with_stdio(false);
+  cin.tie(nullptr);
+    
+  cin>>N>>M;
+    
+  party = vector<vector<int>>(M);
+  conn = vector<vector<int>>(N+1);
+  know = vector<bool>(N+1,0);
+
+  int kn;
+  cin>>kn;
+  for(int i=0; i<kn; i++)
+    {
+      int tmp;
+      cin>>tmp;
+      know[tmp] = 1;
+    }
+  
+  for(int i=0; i<M; i++)
+    {
+      int tmp;
+      cin>>tmp;
+      vector<int> v;
+      for(int j=0; j<tmp; j++)
+        {
+          int t;
+          cin>>t;
+          v.push_back(t);
+        }
+
+      for(int ii=0; ii<v.size(); ii++)
+      {
+        for(int jj=ii+1; jj<v.size(); jj++)
+          {
+            conn[v[ii]].push_back(v[jj]);
+            conn[v[jj]].push_back(v[ii]);
+          }
+      }
+      party[i]=(v);
+    }
+  for(int i=1; i<=N; i++)
+    {
+      if(know[i]){
+        dfs(i);
+      }
+    }
+  int answer = M;
+  for(int i=0; i<party.size(); i++)
+    {
+      for(int j=0; j<party[i].size(); j++)
+        {
+          if(know[party[i][j]])
+          {
+            answer--;
+            break;
+          }
+        }
+    }
+  cout<<answer;
+}
