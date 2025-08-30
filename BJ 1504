@@ -1,0 +1,63 @@
+#include <bits/stdc++.h>
+using namespace std;
+using ll = long long;
+int N,M;
+int INF = 1e9;
+vector<vector<pair<int,int>>> graph;
+vector<ll> dijk(int start)
+{
+  vector<ll> dist(N+1,INF);
+  priority_queue<pair<int,int>,vector<pair<int,int>>,greater<>> pq;
+  dist[start] = 0;
+  pq.push({0,start});
+  while(!pq.empty())
+    {
+      int curDist = pq.top().first;
+      int curNode = pq.top().second;
+      pq.pop();
+      if(curDist>dist[curNode])continue;
+
+      for(int i=0; i<graph[curNode].size(); i++)
+        {
+          int next = graph[curNode][i].first;
+          int weight = graph[curNode][i].second;
+          if(dist[next]>curDist+weight)
+          {
+            dist[next] = curDist + weight;
+            pq.push({dist[next],next});
+          }
+         
+        }
+      
+    }
+  return dist;
+}
+
+int main() {
+  ios::sync_with_stdio(false);
+  cin.tie(nullptr);
+    
+  cin>>N>>M;
+
+  graph=vector<vector<pair<int,int>>>(N+1);
+
+  for(int i=0; i<M; i++){
+    int a,b,c;
+    cin>>a>>b>>c;
+    graph[a].push_back({b,c});
+    graph[b].push_back({a,c});
+  }
+  int v1,v2;
+  cin>>v1>>v2;
+
+
+  vector<ll> dist1 = dijk(1);
+  vector<ll> distv1 = dijk(v1);
+  vector<ll> distv2 = dijk(v2);
+
+  ll path1 = dist1[v1] + distv1[v2] + distv2[N];
+  ll path2 = dist1[v2] + distv2[v1] + distv1[N];
+  ll answer = min(path1,path2);
+  if(answer>=INF)cout<<"-1";
+  else cout<<answer;
+}
