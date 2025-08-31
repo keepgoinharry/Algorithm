@@ -1,0 +1,46 @@
+#include <bits/stdc++.h>
+using namespace std;
+using ll = long long;
+int N;
+vector<vector<char>> graph;
+
+
+void dfs(int x, int y, int size)
+{
+  if(size == 3)
+  {
+    graph[x][y] = '*';
+    graph[x+1][y-1] = '*';
+    graph[x+1][y+1] = '*';
+    for(int i=-2; i<=2; i++)
+      {
+        graph[x+2][y+i]='*';
+      }
+
+    return;
+  }
+  
+  int half = size/2;
+  dfs(x+half,y-half,half);
+  dfs(x+half,y+half,half); 
+  dfs(x,y,half);
+}
+
+int main() {
+  ios::sync_with_stdio(false);
+  cin.tie(nullptr);
+  cin>>N;
+  graph = vector<vector<char>>(N,vector<char>(2*N-1,' '));
+
+
+  dfs(0,N-1,N);
+
+  for(int i=0; i<graph.size(); i++)
+    {
+      for(int j=0; j<graph[i].size(); j++)
+        {
+          cout<<graph[i][j];
+        }
+      cout<<"\n";
+    }
+}
