@@ -1,0 +1,73 @@
+#include <bits/stdc++.h>
+using namespace std;
+using ll = long long;
+int N;
+ll answer = 0;
+
+vector<vector<int>> adjGraph;
+vector<vector<pair<int,int>>> graph;
+vector<int> child;
+
+void dijk(int num)
+{
+  vector<ll> dist(N+1,-1);
+  dist[num] = 0;
+  queue<pair<int,int>> q;
+  q.push({num,0});
+  while(!q.empty())
+    {
+      int cx = q.front().first;
+      int cd = q.front().second;
+      
+      q.pop();
+      for(int i=0; i<graph[cx].size(); i++)
+        {
+          int nxt = graph[cx][i].first;
+          int weight = graph[cx][i].second;
+          
+          if(dist[nxt]==-1)
+          {
+            dist[nxt] = weight + cd;
+            q.push({nxt,dist[nxt]});
+          }
+        }
+    }
+  ll tmp = 0;
+  for (int d : dist) {
+      if (d > tmp) tmp = d;  // -1은 무시
+  }
+  answer = max(tmp,answer);
+}
+int main() {
+  ios::sync_with_stdio(false);
+  cin.tie(nullptr);
+  cin>>N;
+  adjGraph = vector<vector<int>> (N+1);
+  graph = vector<vector<pair<int,int>>> (N+1);
+
+  
+  for(int i=0; i<N-1; i++)
+  {
+    int a,b,c;
+    cin>>a>>b>>c;
+    adjGraph[a].push_back(b);
+    graph[a].push_back({b,c});
+    graph[b].push_back({a,c});
+  }
+
+  for(int i=1; i<=N; i++)
+    {
+      if(graph[i].size()==1)
+      {
+        child.push_back(i);
+      }
+    }
+
+  for(int i=0; i<child.size(); i++)
+    {
+      dijk(child[i]);
+    }
+
+  cout<<answer;
+  
+}
