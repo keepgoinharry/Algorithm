@@ -1,0 +1,39 @@
+#include <bits/stdc++.h>
+using namespace std;
+int N;
+vector<bool> col,diag1,diag2;
+int answer =0;
+
+void dfs(int row)
+{
+  if(row==N)
+  {
+    answer++;
+    return;
+  }
+  for(int i=0; i<N; i++)
+    {
+      if(!col[i]&&!diag1[row+i]&&!diag2[row-i+N+1])
+      {
+        col[i] = true;
+        diag1[row+i] = true;
+        diag2[row-i+N+1] = true;
+        dfs(row+1);
+        col[i] = false;
+        diag1[row+i] = false;
+        diag2[row-i+N+1] = false;
+      }
+    }
+}
+int main() {
+  ios::sync_with_stdio(false);
+  cin.tie(nullptr);
+  cin>>N;
+
+  col = vector<bool>(N,false);
+  diag1 = vector<bool>(N*2,false);
+  diag2 = vector<bool>(N*2,false);
+
+  dfs(0);
+  cout<<answer;
+}
