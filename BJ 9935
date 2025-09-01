@@ -1,0 +1,28 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+  ios::sync_with_stdio(false);
+  cin.tie(nullptr);
+  string s,bomb;
+  cin>>s;
+  cin>>bomb;
+
+  int blen = bomb.size();
+  string result = "";  
+  for(int i=0; i<s.size(); i++)
+    {
+      result += s[i];
+      if(result.size()>=blen)
+      {
+        string temp = result.substr(result.size()-blen,blen);
+        if(temp == bomb)
+        {
+          result.erase(result.size()-blen,blen);
+        }
+      }
+    }
+
+  if(result=="")cout<<"FRULA";
+  else cout<<result;
+}
