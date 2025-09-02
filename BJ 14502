@@ -1,0 +1,90 @@
+#include <bits/stdc++.h>
+using namespace std;
+using ll = long long;
+int N,M;
+vector<vector<int>> graph;
+vector<vector<int>> visited;
+int answer = -1;
+int dx[4] = {0,0,-1,1};
+int dy[4] = {1,-1,0,0};
+vector<pair<int,int>> virus;
+int bfs()
+{
+  vector<vector<int>> graph1 = graph;
+  queue<pair<int,int>> q;
+  for(int i=0; i<virus.size(); i++)
+    {
+      q.push(virus[i]);
+    }
+  while(!q.empty())
+    {
+      int cx = q.front().first;
+      int cy = q.front().second;
+
+      q.pop();
+
+      for(int i=0; i<4; i++)
+        {
+          int nx = cx + dx[i];
+          int ny = cy + dy[i];
+          if(nx>=N||ny>=M||nx<0||ny<0)continue;
+          if(graph1[nx][ny]==0)
+          {
+            graph1[nx][ny] = 2;
+            q.push({nx,ny});
+          }
+        }
+    }
+  int a = 0;
+  for(int i=0; i<N; i++)
+    {
+      for(int j=0; j<M; j++)
+        {
+          if(graph1[i][j]==0)a++;
+        }
+    }
+  return a;
+}
+
+void backtracking(int cnt)
+{
+  if(cnt==3)
+  {
+    answer = max(answer,bfs());
+    return;
+  }
+
+  for(int i=0; i<N; i++)
+    {
+      for(int j=0; j<M; j++)
+        {
+          if(graph[i][j]==0)
+          {
+            graph[i][j] = 1;
+            backtracking(cnt+1);
+            graph[i][j] = 0;
+          }
+        }
+    }
+}
+
+int main() {
+  ios::sync_with_stdio(false);
+  cin.tie(nullptr);
+  cin>>N>>M;
+
+  graph = vector<vector<int>>(N,vector<int>(M,0));
+  visited = vector<vector<int>>(N,vector<int>(M,0));
+
+  for(int i=0; i<N; i++)
+    {
+      for(int j=0; j<M; j++)
+        {
+          cin>>graph[i][j];
+          if(graph[i][j]==2)virus.push_back({i,j});
+        }
+    }
+  backtracking(0);
+
+  cout<<answer;
+}
