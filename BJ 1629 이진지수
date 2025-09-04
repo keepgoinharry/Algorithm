@@ -1,0 +1,22 @@
+#include <bits/stdc++.h>
+using namespace std;
+using ll = long long;
+
+ll a,b,c;
+
+int main() {
+  ios::sync_with_stdio(false);
+  cin.tie(nullptr);
+  cin>>a>>b>>c;  
+
+  ll r = 1;
+
+  while(b>0)
+    {
+      if((b&1)==1)r=(r*a)%c;
+      a=(a*a)%c;
+      b>>=1;
+    }
+
+  cout<<r;
+}
