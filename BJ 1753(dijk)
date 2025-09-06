@@ -1,0 +1,57 @@
+#include <bits/stdc++.h>
+using namespace std;
+using ll = long long;
+using pi = pair<int,int>;
+int INF = 1e9;
+int V,E;
+
+vector<vector<pi>> graph;
+
+vector<ll> dijk(int start)
+{
+  vector<ll> dist(V+1, INF);
+  priority_queue<pair<ll,int>,vector<pair<ll,int>>,greater<>> pq;
+
+  dist[start] = 0;
+  pq.push({0,start});
+  while(!pq.empty())
+    {
+      ll cd = pq.top().first;
+      int cx = pq.top().second;
+      pq.pop();
+      if(cd>dist[cx])continue;
+      for(int i=0; i<graph[cx].size(); i++)
+        {
+          int nx = graph[cx][i].first;
+          int nd = graph[cx][i].second;
+          if(dist[nx]>cd+nd)
+          {
+            dist[nx] = cd+nd;
+            pq.push({dist[nx],nx});
+          }
+        }
+    }
+  return dist;
+}
+
+
+int main() {
+  ios::sync_with_stdio(false);
+  cin.tie(0);
+  
+  cin>>V>>E;
+  graph=vector<vector<pi>>(V+1);
+  int start;
+  cin>>start;
+  for(int i=0; i<E; i++)
+    {
+      int a,b,c;
+      cin>>a>>b>>c;
+      graph[a].push_back({b,c});
+    }
+
+  vector<long long> dist = dijk(start);
+
+  for(int i=1; i<=V; i++)if(dist[i]>=INF)cout<<"INF"<<"\n";
+  else cout<<dist[i]<<"\n";
+}
