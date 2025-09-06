@@ -1,0 +1,83 @@
+#include <bits/stdc++.h>
+using namespace std;
+using ll = long long;
+using pi = pair<int,int>;
+using pli = pair<ll,int>;
+int INF1 = 1e9;
+ll INF = 1e15;
+int n,m;
+vector<vector<pi>> graph;
+vector<int> parent;
+vector<ll> dijk(int start)
+{
+  vector<ll> dist(n+1,INF);
+  priority_queue<pli,vector<pli>,greater<>> pq;
+  dist[start] = 0;
+  pq.push({0,start});
+
+  while(!pq.empty())
+    {
+      int cx = pq.top().second;
+      ll cd = pq.top().first;
+      pq.pop();
+      if(cd>dist[cx])continue;
+      for(int i=0; i<graph[cx].size(); i++)
+        {
+          int nx = graph[cx][i].first;
+          ll nd = graph[cx][i].second;
+
+          if(dist[nx]>cd+nd)
+          {
+            dist[nx] = cd+nd;
+            
+            parent[nx] = cx;
+            pq.push({dist[nx],nx});
+          }
+        }
+    }
+  return dist;
+}
+
+vector<int> getWay(int end)
+{
+  stack<int> st;
+  st.push(end);
+  while(end!=0)
+    {
+      st.push(parent[end]);
+      end = parent[end];
+    }
+  vector<int> n;
+
+  while(!st.empty())
+    {
+      n.push_back(st.top());st.pop();
+    }
+
+  return n;
+}
+int main() {
+  ios::sync_with_stdio(false);
+  cin.tie(0);
+  cin>>n;
+  cin>>m;
+  graph = vector<vector<pi>>(n+1);
+  parent = vector<int>(n+1,0);
+  for(int i=0; i<m; i++)
+    {
+      int a,b,c;
+      cin>>a>>b>>c;
+      graph[a].push_back({b,c});
+    }
+  int start,end;
+  cin>>start>>end;
+  vector<ll> dist = dijk(start);
+
+  cout<<dist[end]<<endl; 
+  //for(auto i:parent)cout<<i<<" ";
+  vector<int> way = getWay(end);
+  cout<<way.size()-1<<endl;
+
+  for(int i=1; i<way.size(); i++)cout<<way[i]<<" ";
+
+}
