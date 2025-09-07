@@ -1,0 +1,61 @@
+#include <bits/stdc++.h>
+using namespace std;
+using ll = long long;
+using pi = pair<int,int>;
+using pli = pair<ll,int>;
+int INF1 = 1e9;
+ll INF = 1e15;
+int V;
+vector<vector<pi>> graph;
+vector<bool> visited;
+vector<int> child;
+int maxDist;
+int farNode;
+void dfs(int node,int dist)
+{
+  if(dist>maxDist)
+  {
+    maxDist = dist;
+    farNode = node;
+  }
+
+  visited[node] = true;
+  for(auto& next : graph[node])
+    {
+      int nextNode = next.first;
+      int weight = next.second;
+      if(!visited[nextNode])
+      {
+        dfs(nextNode,dist + weight);
+      }
+    }
+}
+int main() {
+  ios::sync_with_stdio(false);
+  cin.tie(0);
+  cin>>V;
+  graph = vector<vector<pi>>(V+1);
+  for(int i=0; i<V; i++)
+    {
+      int a;
+      cin>>a;
+      while(true)
+        {
+          int b,c;
+          cin>>b;
+          if(b==-1)break;
+          cin>>c;
+          graph[a].push_back({b,c});
+        }
+    }
+
+  visited = vector<bool>(V+1,0);
+  maxDist = 0;
+  dfs(1,0);
+
+  visited = vector<bool>(V+1,0);
+  maxDist = 0;
+  dfs(farNode,0);
+  
+  cout<<maxDist;
+}
