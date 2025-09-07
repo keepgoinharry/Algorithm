@@ -1,0 +1,48 @@
+#include <bits/stdc++.h>
+using namespace std;
+using ll = long long;
+using pi = pair<int,int>;
+using pli = pair<ll,int>;
+int INF1 = 1e9;
+ll INF = 1e15;
+
+int main() {
+  ios::sync_with_stdio(false);
+  cin.tie(0);
+  string s;
+  cin>>s;
+  map<char,int> prior = {{'+',1},{'-',1},{'*',2},{'/',2}};
+  stack<char> st;
+  for(int i=0; i<s.size(); i++)
+    {
+      char c = s[i];
+      if(isalpha(c))cout<<c;
+      else if(c=='(')
+      {
+        st.push(c);
+      }
+      else if(c==')')
+      {
+        while(!st.empty()&&st.top()!='(')
+          {
+            cout<<st.top();
+            st.pop();
+          }
+        st.pop();
+      }
+      else
+      {
+        while(!st.empty() && st.top()!='('&&prior[st.top()]>=prior[c])
+          {
+            cout<<st.top();
+            st.pop();
+          }
+        st.push(c);
+      }
+    }
+  while(!st.empty())
+    {
+      cout<<st.top();
+      st.pop();
+    }
+}
