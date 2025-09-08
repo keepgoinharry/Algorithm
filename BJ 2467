@@ -1,0 +1,50 @@
+#include <bits/stdc++.h>
+using namespace std;
+using ll = long long;
+using pi = pair<int,int>;
+using pli = pair<ll,int>;
+int INF1 = 1e9;
+ll INF = 1e15;
+
+int main() {
+  ios::sync_with_stdio(false);
+  cin.tie(0);
+  int N;
+  cin>>N;
+  vector<ll> v;
+  for(int i=0; i<N; i++)
+    {
+      int tmp;
+      cin>>tmp;
+      v.push_back(tmp);
+    }
+
+  int s=0;
+  int e=N-1;
+
+  sort(v.begin(),v.end());
+  ll lastGap = INF;
+  pi answer;
+
+  while(s<e)
+    {
+      
+      ll curGap = v[s]+v[e];
+      
+      if(lastGap>llabs(curGap))
+        {
+    
+          lastGap = abs(curGap);
+          
+          answer = {s,e};
+        }
+      if(curGap>0)e--;
+      else if(curGap<0)s++;
+      else if(curGap==0)
+      {
+        answer = {s,e};
+        break;
+      }
+    }
+  cout<<v[answer.first]<<" "<<v[answer.second];
+}
