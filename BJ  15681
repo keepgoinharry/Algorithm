@@ -1,0 +1,52 @@
+#include <bits/stdc++.h>
+using namespace std;
+using ll = long long;
+using pi = pair<int,int>;
+using pli = pair<ll,int>;
+int INF1 = 1e9;
+ll INF = 1e15;
+vector<vector<int>> graph;
+vector<int> dp(100001);
+vector<int> visited(100001,0);
+
+int dfs(int node)
+{
+  cout<<node<<" 시작!!!"<<"\n";
+  visited[node] = 1;
+  dp[node] = 1;
+  for(int child : graph[node])
+    {
+      if(!visited[child])
+      {
+        dp[node] += dfs(child);
+      }
+    }
+  cout<<node<<" 끝!!!"<<"\n";
+  return dp[node];
+}
+int N,R,Q;
+int main() {
+  ios::sync_with_stdio(false);
+  cin.tie(0);
+  cin>>N>>R>>Q;
+  graph = vector<vector<int>>(N+1);
+  for(int i=0; i<N-1; i++)
+    {
+      int a,b;
+      cin>>a>>b;
+      graph[a].push_back(b);
+      graph[b].push_back(a);
+    }
+  dp[R] = dfs(R);
+
+
+  
+  
+  
+  for(int i=0; i<Q; i++)
+    {
+      int num;
+      cin>>num;
+      cout<<dp[num]<<"\n";
+    }
+}
