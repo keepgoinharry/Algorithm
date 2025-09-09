@@ -1,0 +1,53 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+vector<int> parent(100001,0);
+vector<pair<int,pair<int,int>>> graph;
+int N,M;
+
+int find(int num)
+{
+  if(parent[num]==num)return num;
+
+  return parent[num] = find(parent[num]);
+}
+
+
+bool unite(int a, int b)
+{
+  a = find(a);
+  b = find(b);
+  if(a==b)return false;
+  parent[b] = a;
+  return true;
+}
+
+int main() {
+  ios::sync_with_stdio(false);
+  cin.tie(0);
+  cin>>N>>M;
+  for(int i=0; i<M; i++)
+    {
+      int u,v,w;
+      cin>>u>>v>>w;
+      graph.push_back({w,{u,v}});
+    }
+
+  sort(graph.begin(),graph.end());
+  int maxW = 0;
+  for(int i=1; i<=N; i++)parent[i] = i;
+  int mst = 0;
+  for(int i=0; i<graph.size(); i++)
+    {
+      int a = graph[i].second.first;
+      int b = graph[i].second.second;
+      int weight = graph[i].first;
+      
+      if(unite(a,b))
+      {
+        mst+=weight;
+        maxW=max(maxW,weight);
+      }
+    }
+  cout<<mst-maxW;
+}
