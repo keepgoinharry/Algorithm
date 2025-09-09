@@ -1,0 +1,54 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+
+vector<int> parent(10001,0);
+int V,E;
+
+int find(int num)
+{
+  if(num==parent[num])return num;
+
+  return parent[num] = find(parent[num]);
+}
+bool unite(int a, int b)
+{
+  a = find(a);
+  b = find(b);
+
+  if(a==b)return false;
+
+  parent[b] = a;
+  return true;
+}
+
+int main() {
+  ios::sync_with_stdio(false);
+  cin.tie(0);
+  cin>>V>>E;
+
+  vector<pair<int,pair<int,int>>> edge;
+
+  for(int i=0; i<E; i++)
+    {
+      int u,v,w;
+      cin>>u>>v>>w;
+      pair<int,int> p = {u,v};
+      edge.push_back({w,p});
+    }
+
+  for(int i=1; i<=V; i++)parent[i] = i;
+    
+  sort(edge.begin(),edge.end());
+  int mst = 0;
+  for(int i=0; i<edge.size(); i++)
+    {
+      int a = edge[i].second.first;
+      int b = edge[i].second.second;
+      int weight = edge[i].first;
+      if(unite(a,b))mst+=weight;
+    }
+
+  cout<<mst;
+}
