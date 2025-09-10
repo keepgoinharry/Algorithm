@@ -1,0 +1,53 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+using ll = long long;
+ll N,S;
+vector<ll> nums;
+vector<ll> psum;
+ll getPsum(int l, int r)
+{
+  return psum[r] - psum[l];
+}
+
+int main() {
+  ios::sync_with_stdio(false);
+  cin.tie(0);
+
+  cin>>N>>S;
+  psum = vector<ll>(N+1,0);
+  for(int i=0; i<N; i++)   
+  {
+    ll num;
+    cin>>num;
+    nums.push_back(num);
+  }
+
+  for(int i=1; i<=N; i++)   
+    {
+      psum[i] = psum[i-1] + nums[i-1];
+    }
+  //for(auto i:psum)cout<<i<<" ";
+  int l=0;
+  int r=0;
+  int answer = N+1;
+
+  
+  while(r<=N)
+  {
+    ll cur = getPsum(l,r);
+    if(cur>=S)
+    {
+      answer = min(answer,r-l);
+      l++;
+    }
+    else 
+    {
+      if(r==N)break;
+      r++;
+    }
+  }
+  if(answer==N+1)cout<<0;
+  else cout<<answer;
+  
+}
