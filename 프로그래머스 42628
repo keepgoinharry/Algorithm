@@ -1,0 +1,87 @@
+#include <string>
+#include <vector>
+#include <bits/stdc++.h>
+using namespace std;
+map<int,int> freq;
+vector<int> solution(vector<string> o) {
+    vector<int> answer;
+    priority_queue<int,vector<int>,greater<>> pq1;
+    priority_queue<int,vector<int>,less<>> pq2;
+    for(int i=0; i<o.size(); i++)
+    {
+        if(o[i][0]=='I')
+        {
+            int num = stoi(o[i].substr(2));
+            pq1.push(num);
+            pq2.push(num);
+            freq[num]++;
+        }
+        else
+        {
+            if(o[i][2]=='-')
+            {
+                if(!pq1.empty()&&freq[pq1.top()])
+                {
+                    freq[pq1.top()]--;
+                    pq1.pop();
+                }
+                while(!pq2.empty())
+                {
+                    if(!freq[pq2.top()])
+                    {
+                        pq2.pop();
+                    }
+                    else break;
+                }
+            }
+            else 
+            {
+                if(!pq2.empty()&&freq[pq2.top()])
+                {
+                    freq[pq2.top()]--;
+                    pq2.pop();
+                }
+                
+                while(!pq1.empty())
+                {
+                    if(!freq[pq1.top()])
+                    {
+                        pq1.pop();
+                    }
+                    else break;
+                }
+            }
+        }
+        
+    }
+    
+    while(!pq1.empty())
+                {
+                    if(!freq[pq1.top()])
+                    {
+                        pq1.pop();
+                    }
+                    else break;
+                }
+    
+    while(!pq2.empty())
+                {
+                    if(!freq[pq2.top()])
+                    {
+                        pq2.pop();
+                    }
+                    else break;
+                }
+    
+    if(pq1.empty())
+    {
+        answer.push_back(0);
+        answer.push_back(0);
+    }
+    else
+    {
+        answer.push_back(pq2.top());
+        answer.push_back(pq1.top());
+    }
+    return answer;
+}
