@@ -1,0 +1,64 @@
+#include <string>
+#include <vector>
+#include <bits/stdc++.h>
+using namespace std;
+
+bool cmp(pair<int,int>& a, pair<int,int>& b)
+{
+    if(a.first==b.first)return a.second<b.second;
+    return a.first>b.first;
+}
+vector<int> solution(vector<string> genres, vector<int> plays) {
+    vector<int> answer;
+    vector<pair<int,string>> freq;
+    for(int i=0; i<plays.size(); i++)
+    {
+        string s = genres[i];
+        int num = plays[i];
+        bool flag = false;
+        for(int j=0; j<freq.size(); j++)
+        {
+            if(freq[j].second == s)
+            {
+                freq[j].first+=num;
+                flag = true;
+                break;
+            }
+        }
+        if(!flag)freq.push_back({num,s});
+    }
+    sort(freq.begin(), freq.end(), [](auto &a, auto &b){ if(a.first==b.first) return a.second<b.second; return a.first>b.first; });
+    vector<string> gen;
+    for(auto i:freq)gen.push_back(i.second);
+    for(int i=0; i<gen.size(); i++)
+    {
+        string cur = gen[i];
+        vector<pair<int,int>> tmp;
+        int cnt = 2;
+        for(int j=0; j<genres.size(); j++)
+        {
+            if(genres[j]==cur)
+            {
+                tmp.push_back({plays[j],j});
+            }
+        }    
+        sort(tmp.begin(),tmp.end(),cmp);
+        for(auto i:tmp)
+        {
+            //cout<<i.first<<" "<<i.second<<endl;
+        }
+        while(cnt&&tmp.size())
+        {
+            int t = tmp[0].second;
+            answer.push_back(t);
+            tmp.erase(tmp.begin());
+            cnt--;
+            
+        }  
+    }
+    
+   
+    
+    return answer;
+    
+}
