@@ -1,0 +1,51 @@
+#include <string>
+#include <vector>
+#include <bits/stdc++.h>
+using namespace std;
+int N;
+
+vector<vector<int>> graph;
+vector<int> dijk(int num)
+{
+    vector<int> dist(N+1,1e9);
+    dist[num] = 0;
+    priority_queue<pair<int,int>,vector<pair<int,int>>,greater<>> pq;
+    pq.push({0,num});
+    while(!pq.empty())
+    {
+        int cx = pq.top().second;
+        int cd = pq.top().first;
+        pq.pop();
+        if(dist[cx]>=1e9)continue;
+        for(int i=0; i<graph[cx].size(); i++)
+        {
+            int nx = graph[cx][i];
+            if(dist[nx]>dist[cx]+1)
+            {
+                dist[nx] = dist[cx]+1;
+                pq.push({dist[nx],nx});
+            }
+        }
+        
+    }
+    return dist;
+}
+vector<int> solution(int n, vector<vector<int>> roads, vector<int> sources, int destination) {
+    vector<int> answer;
+    N=n;
+    graph = vector<vector<int>>(n+1);
+    for(int i=0; i<roads.size(); i++)
+    {
+        int u = roads[i][0];
+        int v = roads[i][1];
+        graph[u].push_back(v);
+        graph[v].push_back(u);
+    }
+    vector<int> tmp = dijk(destination);
+    for(int i=0; i<sources.size(); i++)
+    {
+        if(tmp[sources[i]]>=1e9)answer.push_back(-1);
+        else answer.push_back(tmp[sources[i]]);
+    }
+    return answer;
+}
