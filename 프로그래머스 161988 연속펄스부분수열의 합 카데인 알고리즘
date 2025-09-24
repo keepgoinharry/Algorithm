@@ -1,0 +1,38 @@
+#include <string>
+#include <vector>
+
+using namespace std;
+vector<int> s1;
+vector<int> s2;
+using ll=long long;
+long long getNum(vector<int> v)
+{
+    long long cur_sum = v[0];
+    long long max_sum = v[0];
+    
+    for(int i=1; i<v.size(); i++)
+    {
+        cur_sum = max(ll(v[i])+cur_sum,ll(v[i]));
+        max_sum = max(cur_sum,max_sum);
+    }
+    
+    return max_sum;
+}
+long long solution(vector<int> sequence) {
+    long long answer = 0;
+    for(int i=0; i<sequence.size(); i++)
+    {
+        if(i%2==0)
+        {
+            s1.push_back(sequence[i]);
+            s2.push_back(-sequence[i]);
+        }
+        else
+        {
+            s1.push_back(-sequence[i]);
+            s2.push_back(sequence[i]);
+        }
+    }
+    answer = max(getNum(s1),getNum(s2));
+    return answer;
+}
