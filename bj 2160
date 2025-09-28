@@ -1,0 +1,58 @@
+#include <bits/stdc++.h>
+using namespace std;
+int minCnt = 1e9;
+pair<int,int> answer;
+struct graphs{
+    vector<vector<char>> graph= vector<vector<char>>(5,vector<char>(7,0));
+};
+
+vector<graphs> v;
+
+
+void check(graphs& g1, graphs& g2,int num1, int num2)
+{
+    int cnt = 0;
+    for(int i=0; i<5; i++)
+        {
+            for(int j=0; j<7; j++)
+                {
+                    if(g1.graph[i][j]!=g2.graph[i][j])
+                    {
+                        cnt++;
+                    }
+                }
+        }
+    if(minCnt>cnt)
+    {
+        minCnt = cnt;
+        answer = {num1,num2};
+    }
+}
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(0);
+    int n;
+    cin>>n;
+    for(int i=0; i<n; i++)
+        {
+            graphs tmp;
+            //vector<vector<int>> tmp(5,vector<int>(7,0));
+            for(int j=0; j<5; j++)
+                {
+                    for(int k=0; k<7; k++)
+                        {
+                            cin>>tmp.graph[j][k];
+                        }
+                }
+            v.push_back(tmp);
+        }
+
+    for(int i=0; i<n; i++)
+        {
+            for(int j=i+1; j<n; j++)
+                {
+                    check(v[i],v[j],i+1,j+1);
+                }
+        }
+    cout<<answer.first<<" "<<answer.second;
+}
