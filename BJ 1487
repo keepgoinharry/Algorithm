@@ -1,0 +1,46 @@
+#include <bits/stdc++.h>
+using namespace std;
+using pi = pair<long long,long long>;
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(0);
+   vector<pi> v;
+    int N;
+    cin>>N;
+    for(int i=0; i<N; i++)
+        {
+            long long a;
+            long long b;
+            cin>>a>>b;
+            v.push_back({a,b});
+        }
+    sort(v.begin(),v.end());
+    long long answer = 0;
+    long long maxtotal = 0;
+    for(int i=0; i<N; i++)
+        {
+            long long total =0;
+            long long limit = v[i].first;
+            
+            for(int j=0; j<v.size(); j++)
+                {
+                    if(v[j].first>=limit)
+                    {
+                        long long delivery = v[j].second;
+                        if(delivery<limit)
+                        {
+                            total += limit;
+                            total -=delivery;
+                        }
+                    }
+                }
+            //cout<<limit<<" "<<maxtotal<<" "<<total<<endl;
+            if(maxtotal<total)
+            {
+                maxtotal = total;
+                answer = limit;
+            }
+        }
+   cout<<answer;
+}
