@@ -1,0 +1,59 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+map<char,pair<int,int>> m = {{'q',{0,0}},{'w',{0,1}},{'e',{0,2}},{'r',{0,3}},{'t',{0,4}},{'y',{0,5}},{'u',{0,6}},{'i',{0,7}},{'o',{0,8}},{'p',{0,9}},{'a',{1,0}},{'s',{1,1}},{'d',{1,2}},{'f',{1,3}},{'g',{1,4}},{'h',{1,5}},{'j',{1,6}},{'k',{1,7}},{'l',{1,8}},{'z',{2,0}},{'x',{2,1}},{'c',{2,2}},{'v',{2,3}},{'b',{2,4}},{'n',{2,5}},{'m',{2,6}}};
+
+bool check(char c)
+{
+  pair<int,int> tmp = m[c];
+  int l = tmp.first;
+  int r = tmp.second;
+  if(l==2)
+  {
+    return r>3;
+  }
+  else return r>4;
+}
+
+int getTime(char c,pair<int,int>& left)
+{
+
+  pair<int,int> target = m[c];
+  int num = 0;
+  num = abs(left.first - target.first) +
+    abs(left.second - target.second);
+  //cout<<c<<" "<<left.first<<" "<<left.second<<" "<<target.first<<" "<<target.second<<endl;
+  left = target;
+  
+  return num+1;
+    }
+
+int main() { 
+  pair<int,int> left,right;
+  char l,r;
+  cin>>l>>r;
+  string s;
+  cin>>s;
+  left = m[l];
+  right = m[r];
+  //cout<<left.first<<" "<<left.second<<endl;
+  //cout<<right.first<<" "<<right.second<<endl;
+  int cnt = 0;
+  for(int i=0; i<s.size(); i++)
+    {
+      //cout<<s[i]<<endl;
+      if(!check(s[i]))
+      {//cout<<i<<endl;
+        int time = getTime(s[i],left);
+        //cout<<i<<" "<<time<<endl;
+        cnt+=time;
+      }
+      else
+      {//cout<<i<<endl;
+        int time = getTime(s[i],right);
+        //cout<<i<<" "<<time<<endl;
+        cnt+=time;
+      }
+    }
+  cout<<cnt;
+}
