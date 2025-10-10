@@ -1,0 +1,42 @@
+#include <bits/stdc++.h>
+using namespace std;
+using ll = long long;
+vector<bool> rest_day(101,0);
+vector<vector<int>> price(101,vector<int>(101,1e9));//날짜,쿠폰갯수 = 최소비용
+int N,M;
+
+int dfs(int day, int coupon)
+{
+    if(day>N)return 0;
+    if(price[day][coupon]!=1e9)return price[day][coupon];
+    if(rest_day[day])
+    {
+        price[day][coupon] = dfs(day+1,coupon);
+        return price[day][coupon];
+    }
+
+    price[day][coupon] = min(price[day][coupon],dfs(day+1,coupon)+10000);
+    price[day][coupon] = min(price[day][coupon],dfs(day+3,coupon+1)+25000);
+    price[day][coupon] = min(price[day][coupon],dfs(day+5,coupon+2)+37000);
+    if(coupon>=3)
+    {
+        price[day][coupon] = min(price[day][coupon],dfs(day+1,coupon-3));
+    }
+
+    return price[day][coupon];
+}
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(0);
+    cin>>N>>M;
+
+    for(int i=0; i<M; i++)
+        {
+            int a;
+            cin>>a;
+            rest_day[a] = true;
+        }
+    int answer = dfs(1,0);//day, 쿠폰갯수
+    cout<<answer;
+}
