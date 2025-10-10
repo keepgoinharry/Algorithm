@@ -1,0 +1,36 @@
+#include <bits/stdc++.h>
+using namespace std;
+using ll = long long;
+using pi = pair<int,int>;
+using pli = pair<ll,int>;
+int INF1 = 1e9;
+ll INF = 1e15;
+
+int main() {
+  ios::sync_with_stdio(false);
+  cin.tie(0);
+  int D,P;
+    cin>>D>>P;
+    vector<pi> v;
+    for(int i=0; i<P; i++)
+        {
+            int a,b;
+            cin>>a>>b;
+            v.push_back({a,b});
+        }
+
+    vector<int> dp(D,-1);
+    dp[0] = INF1;
+
+    for(int i=0; i<v.size(); i++)
+        {
+            int len = v[i].first;
+            int cap = v[i].second;
+            for(int j=D-len; j>=0; j--)
+                {
+                    if(dp[j]==-1)continue;
+                    dp[len+j] = max(dp[len+j],min(dp[j],cap));
+                }
+        }
+    cout<<dp[D];
+}
