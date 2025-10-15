@@ -1,0 +1,27 @@
+#include <bits/stdc++.h>
+using namespace std;
+int A,B,C,N;
+bool answer = false;
+bool visited[301];
+void dfs(int cur)
+{
+  if (cur > N || visited[cur]) return;
+  visited[cur] = true;
+  //cout<<cur<<endl;
+  if(cur==N)
+  {
+    answer = true;
+    return;
+  }
+  
+  dfs(cur+A);
+  dfs(cur+B);
+  dfs(cur+C);
+}
+
+int main() { 
+  cin>>A>>B>>C>>N;
+
+  dfs(0);
+  cout<<answer;
+}
