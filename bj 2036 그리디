@@ -1,0 +1,29 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() { 
+  int n;
+  cin>>n;
+  string s;
+  cin>>s;
+  string ns="";
+  int rcnt=0, bcnt=0;
+  char last = s[0];
+
+  last=='B'?bcnt++:rcnt++;
+  last=='B'?ns+="B":ns+="R";
+
+  for(int i=1; i<s.size(); i++)
+    {
+      if(s[i]!=last)
+      {
+        last = s[i];
+        last=='B'?bcnt++:rcnt++;
+        last=='B'?ns+="B":ns+="R";
+      }
+    }
+  int answer = 1 + min(rcnt,bcnt);
+
+  cout<<answer;
+  
+}
