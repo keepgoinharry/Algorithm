@@ -1,0 +1,65 @@
+#include <bits/stdc++.h>
+using namespace std;
+using ll = long long;
+vector<vector<int>> graph;
+unordered_map<int,int> freq = {{-1,0},{0,0},{1,0}};
+void quad(int x, int y, int size, int cur)
+{
+  bool flag = true;
+
+  for(int i=x; i<x+size; i++)
+    {
+      for(int j=y; j<y+size; j++)
+        {
+          if(graph[i][j]==cur)
+          {
+            //cnt++;
+          }
+          else
+          {
+            flag = false;
+            break;
+          }
+          if(!flag)break;
+        }
+    }
+  if(flag)
+  {
+    freq[cur]+=1;
+    return;
+  }
+  int ns = size/3;
+  quad(x, y, ns, graph[x][y]);
+  quad(x, y + ns, ns, graph[x][y + ns]);
+  quad(x, y + ns * 2, ns, graph[x][y + ns * 2]);
+
+  quad(x + ns, y, ns, graph[x + ns][y]);
+  quad(x + ns, y + ns, ns, graph[x + ns][y + ns]);
+  quad(x + ns, y + ns * 2, ns, graph[x + ns][y + ns * 2]);
+
+  quad(x + ns * 2, y, ns, graph[x + ns * 2][y]);
+  quad(x + ns * 2, y + ns, ns, graph[x + ns * 2][y + ns]);
+  quad(x + ns * 2, y + ns * 2, ns, graph[x + ns * 2][y + ns * 2]); 
+}
+
+int main() { 
+ 
+  int n;
+  cin>>n;
+  
+  for(int i=0; i<n; i++)
+    {
+      vector<int> tmp;
+      for(int j=0; j<n; j++)
+        {
+          int a;
+          cin>>a;
+          tmp.push_back(a);
+        }
+      graph.push_back(tmp);
+    }
+
+  quad(0,0,n,graph[0][0]);
+
+  cout<<freq[-1]<<endl<<freq[0]<<endl<<freq[1];
+}
