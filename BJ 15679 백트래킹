@@ -1,0 +1,36 @@
+#include <bits/stdc++.h>
+using namespace std;
+using ll = long long;
+vector<bool> visited;
+vector<int> tmp;
+int N,M;
+void bt(int cnt)
+{
+  if(cnt==M)
+  {
+    for(auto i:tmp)cout<<i<<" ";
+    cout<<"\n";
+    return;
+  }
+  for(int i=1; i<=N; i++)
+    {
+      if(!visited[i])
+      {
+        tmp.push_back(i);
+        visited[i] = true;
+        bt(cnt+1);
+        tmp.pop_back();
+        visited[i] = false;
+      }
+    }
+      
+
+}
+
+int main() { 
+  ios::sync_with_stdio(false); cin.tie(0);
+  cin>>N>>M;
+  visited = vector<bool>(N+1,0);
+  bt(0);
+
+}
